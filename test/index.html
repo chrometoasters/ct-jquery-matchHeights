@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <title>ct-jquery-matchHeights.js Test Suite</title>
+  <!-- QUnit framework -->
+  <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.11.0.css" />
+  <script src="http://code.jquery.com/qunit/qunit-1.12.0.js"></script>
+  <!-- Plugin to test + jQuery version the code was developed for -->
+  <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+  <script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
+  <script src="../dist/ct-jquery-matchHeights.js"></script>
+  <!-- QUnit tests -->
+  <script src="test.js"></script>
+  <!-- Browserscope integration -->
+  <!--<script src="test-to-browserscope.js"></script>-->
+  </head>
+  <body>
+
+  	<!-- QUnit framework -->
+  	<div id="qunit"></div>
+
+    <div id="qunit-fixture">
+
+        <!-- could use an include here to share the code with qunit -->
+        <ul style="width: 100px;">
+          <li>
+            <p class="short">Lorem ipsum dolor sit amet</p>
+          </li>
+          <li>
+            <p class="medium">Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
+          </li>
+          <li>
+            <p class="tall">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat</p>
+          </li>
+        </ul>
+
+    </div>
+
+  </body>
+</html>
