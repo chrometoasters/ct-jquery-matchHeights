@@ -17,4 +17,4 @@ Note: if you wish to customise where Bower puts installed components, you may ad
 
 ## Usage
 
-Please view the demo
+Please view the <a href="https://rawgithub.com/chrometoasters/ct-jquery-matchHeights/master/demo.html">demo</a>
