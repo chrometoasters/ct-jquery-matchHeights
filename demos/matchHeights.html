@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Demo: matchHeights()</title>
+        <meta charset="utf-8" />
+        <style>
+            article {
+                float: left;
+                width: 100px;
+                margin-right: 10px;
+            }
+            header {
+                padding: 0 0 0.5em;
+                border-bottom: 1px dotted;
+                margin: 0 0 1em;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>matchHeights demo</h1>
+        <h2>using matchHeights to align headings with different text lengths</h2>
+        <div class="container">
+            <article>
+                <header>
+                    <h3>Short heading</h3>
+                </header>
+                <p>Description</p>
+            </article>
+            <article>
+                <header>
+                    <h3>Longer heading, foo bar baz</h3>
+                </header>
+                <p>Description</p>
+            </article>
+        </div>
+        <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script src="../dist/ct-jquery-matchHeights.js"></script>
+        <script>
+            if ( typeof $.fn.matchHeights !== undefined ) {
+                $('.container article > header').matchHeights();
+            }
+        </script>
+    </body>
+</html>

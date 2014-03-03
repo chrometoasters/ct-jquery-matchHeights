@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
     <head>
-        <title>Demo</title>
+        <title>Demo: matchHeights() + display:table-cell</title>
         <meta charset="utf-8" />
         <style>
             article {
@@ -23,7 +23,8 @@
     </head>
     <body>
         <h1>matchHeights demo</h1>
-        <h2>using matchHeights to align headings with different text lengths</h2>
+        <h2>using matchHeights with display:table-cell to align headings with different text lengths</h2>
+        <p>Note: this doesn't work in Firefox - see issue 1</p>
         <div class="container">
             <article>
                 <header>
@@ -39,10 +40,12 @@
             </article>
         </div>
         <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
-        <script src="dist/ct-jquery-matchHeights.js"></script>
+        <script src="../dist/ct-jquery-matchHeights.js"></script>
         <script>
             if ( typeof $.fn.matchHeights !== undefined ) {
-                $('.container article > header').matchHeights();
+                $('.container article > header').matchHeights({
+                    property: 'height'
+                });
             }
         </script>
     </body>
