@@ -24,9 +24,9 @@ module("Default state");
 		var medium_style = $('.medium').attr('style');
 		var tall_style = $('.tall').attr('style');
 
-		var short_height = $('.short').height();
-		var medium_height = $('.medium').height();
-		var tall_height = $('.tall').height();
+		var short_height = $('.short').outerHeight();
+		var medium_height = $('.medium').outerHeight();
+		var tall_height = $('.tall').outerHeight();
 
 		equal(
 			( short_style === undefined && medium_style === undefined && tall_style === undefined ),
@@ -58,7 +58,11 @@ module("Default state");
 
 		// Setup
 		var $match = $('.short').add( $('.medium') ).add( $('.tall') );
-		$match.matchHeights();
+		$match.matchHeights({
+			read: 'height',
+			write: 'height',
+			resetStyle: true
+		});
 
 		var short_style = $('.short').attr('style');
 		var medium_style = $('.medium').attr('style');
@@ -77,19 +81,63 @@ module("Default state");
 		equal(
 			( short_height === medium_height ),
 			true,
-			'.short height (' + short_height + 'px) matches .medium height (' + medium_height + 'px) ... ' + short_style
+			'.short height (' + short_height + 'px) matches .medium height (' + medium_height + 'px) ... (' + short_style + ' vs ' + medium_style + ')'
 		);
 
 		equal(
 			( medium_height === tall_height ),
 			true,
-			'.medium height (' + medium_height + 'px) matches .tall height (' + tall_height + 'px)'
+			'.medium height (' + medium_height + 'px) matches .tall height (' + tall_height + 'px) ... (' + medium_style + ' vs ' + tall_style + ')'
 		);
 
 		equal(
 			( short_height === tall_height ),
 			true,
-			'.short height (' + short_height + 'px) matches .tall height (' + tall_height + 'px)'
+			'.short height (' + short_height + 'px) matches .tall height (' + tall_height + 'px) ... (' + short_style + ' vs ' + tall_style + ')'
+		);
+
+	});
+
+	test("After run, items are outerHeight matched", function() {
+
+		// Setup
+		var $match = $('.short').add( $('.medium') ).add( $('.tall') );
+		$match.matchHeights({
+			read: 'outerHeight',
+			write: 'min-height',
+			resetStyle: true
+		});
+
+		var short_style = $('.short').attr('style');
+		var medium_style = $('.medium').attr('style');
+		var tall_style = $('.tall').attr('style');
+
+		var short_height = $('.short').outerHeight();
+		var medium_height = $('.medium').outerHeight();
+		var tall_height = $('.tall').outerHeight();
+
+		equal(
+			( short_style !== undefined && medium_style !== undefined && tall_style !== undefined ),
+			true,
+			'Style attributes added'
+		);
+
+		equal(
+			( short_height === medium_height ),
+			true,
+			'.short height (' + short_height + 'px) matches .medium height (' + medium_height + 'px) ... (' + short_style + ' vs ' + medium_style + ')'
+		);
+
+		equal(
+			( medium_height === tall_height ),
+			true,
+			'.medium height (' + medium_height + 'px) matches .tall height (' + tall_height + 'px) ... (' + medium_style + ' vs ' + tall_style + ')'
+		);
+
+		equal(
+			( short_height === tall_height ),
+			true,
+			'.short height (' + short_height + 'px) matches .tall height (' + tall_height + 'px) ... (' + short_style + ' vs ' + tall_style + ')'
 		);
 
 	});
@@ -101,16 +149,22 @@ module("Destroy");
 
 		// Setup
 		var $match = $('.short').add( $('.medium') ).add( $('.tall') );
-		$match.matchHeights();
+
+		$match.matchHeights({
+			read: 'outerHeight',
+			write: 'min-height',
+			resetStyle: true
+		});
+
 		$match.matchHeights('destroy');
 
 		var short_style = $('.short').attr('style');
 		var medium_style = $('.medium').attr('style');
 		var tall_style = $('.tall').attr('style');
 
-		var short_height = $('.short').height();
-		var medium_height = $('.medium').height();
-		var tall_height = $('.tall').height();
+		var short_height = $('.short').outerHeight();
+		var medium_height = $('.medium').outerHeight();
+		var tall_height = $('.tall').outerHeight();
 
 		equal(
 			( short_style === undefined && medium_style === undefined && tall_style === undefined ),
