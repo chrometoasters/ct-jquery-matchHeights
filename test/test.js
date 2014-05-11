@@ -145,7 +145,7 @@ module("Default state");
 module("Destroy");
 
 	//test("$('" + testvars.treeitem + "').tree()", function() {
-	test("Markup reverts to default state (TODO: add destroy method)", function() {
+	test("Markup reverts to default state", function() {
 
 		// Setup
 		var $match = $('.short').add( $('.medium') ).add( $('.tall') );
