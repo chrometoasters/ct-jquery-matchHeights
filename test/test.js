@@ -60,8 +60,7 @@ module("Default state");
 		var $match = $('.short').add( $('.medium') ).add( $('.tall') );
 		$match.matchHeights({
 			read: 'height',
-			write: 'height',
-			resetStyle: true
+			write: 'height'
 		});
 
 		var short_style = $('.short').attr('style');
@@ -104,8 +103,7 @@ module("Default state");
 		var $match = $('.short').add( $('.medium') ).add( $('.tall') );
 		$match.matchHeights({
 			read: 'outerHeight',
-			write: 'min-height',
-			resetStyle: true
+			write: 'min-height'
 		});
 
 		var short_style = $('.short').attr('style');
@@ -145,15 +143,14 @@ module("Default state");
 module("Destroy");
 
 	//test("$('" + testvars.treeitem + "').tree()", function() {
-	test("Markup reverts to default state", function() {
+	test("Markup reverts to default state (TODO: add destroy method)", function() {
 
 		// Setup
 		var $match = $('.short').add( $('.medium') ).add( $('.tall') );
 
 		$match.matchHeights({
 			read: 'outerHeight',
-			write: 'min-height',
-			resetStyle: true
+			write: 'min-height'
 		});
 
 		$match.matchHeights('destroy');
