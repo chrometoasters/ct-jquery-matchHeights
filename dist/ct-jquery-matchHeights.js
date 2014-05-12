@@ -60,13 +60,31 @@
             // called with $(el).matchHeights()
             init : function( options ) {
 
+                // Create settings, regardless of whether they were already set
+                var defaults = {
+                    read: 'height', // height || outerHeight
+                    write: 'min-height', // min-height || height
+                    tabs_selector: $('#tabs'),
+                    rerun_on_every_tab_change: false, // false || true
+                    animation_duration_ms: 250 // number (0 = off)
+                };
+
+                var settings = $.extend({}, defaults, options);
+
+                // prevent previous height manipulation from affecting a recalculation
+                globals.min_height = 0;
+                globals.max_height = 0;
+
+                // Note: removed legacy behaviour within jQuery UI tabbed container:
+                // https://github.com/chrometoasters/ct-jquery-matchHeights/commit/8f7cdd81c7432988fca1df5ab214bcff337a24b2
+
                 // MAINTAIN CHAINABILITY by returning 'this'
                 // Within the function called by 'each()', the individual element being processed
                 // can be referenced in the local scope by 'this' and used as a jQuery object by '$(this)'
                 this.each( function() {
 
                     // Create a jQuery object to use with this individual element
-                    var $this = $(this);
+                    var $this = $(this); // 'this' means a single element in the collection
 
                     // DATA
                     // it's best to use a single object literal to house all of your variables, and access that object by a single data namespace.
@@ -83,36 +101,16 @@
                     // 1.  $context.data('matchHeights').EXISTING_PROPERTY_NAME
                     // 2a. $context.data('matchHeights').EXISTING_PROPERTY_SET;
                     // 2b. $context.data('matchHeights').EXISTING_PROPERTY_SET.EXISTING_PROPERTY_NAME;
-                    var settings = $this.data('matchHeights');
+                    //var settings = $this.data('matchHeights');
 
-                    // If we could't grab settings, create them from defaults and passed options
-                    if ( typeof(settings) === 'undefined') {
-
-                        var defaults = {
-                            read: 'height', // height || outerHeight
-                            write: 'min-height', // min-height || height
-                            resetStyle: false, // false || true
-                            tabs_selector: $('#tabs'),
-                            rerun_on_every_tab_change: false
-                        };
-
-                        settings = $.extend({}, defaults, options);
-
-                        // Save our newly created settings
-                        $this.data('matchHeights', settings);
-
-                    } else {
-
-                        // We got settings, merge our passed options in with them (optional)
-                        settings = $.extend({}, settings, options);
-
-                        // If you wish to save options passed each time, add:
-                        // $this.data('pluginName', settings);
-                    }
+                    // Save our newly created settings with each element
+                    $this
+                        .data('matchHeights', settings);
 
                     // RUN CODE HERE
                     // do something to $this
-                    $this.matchHeights('_calculate_heights');
+                    $this
+                        .matchHeights('_calculate_heights');
 
                 });
 
@@ -121,7 +119,8 @@
                     // Create a jQuery object to use with this individual element
                     var $this = $(this);
 
-                    $this.matchHeights('_set_heights');
+                    $this
+                        .matchHeights('_set_heights');
 
                 });
             },
@@ -134,13 +133,10 @@
                     // Create a jQuery object to use with this individual element
                     var $this = $(this);
 
-                    // Remove data when deallocating our plugin
-                    //data.remove();
-
                     $this
-                        .removeAttr('style')
-                        .removeData('matchHeights')
-                        .removeClass('js-match-heights');
+                        .removeAttr('style') // Remove inline height style
+                        .removeData('matchHeights') // Remove data when deallocating our plugin
+                        .removeClass('js-match-heights'); // Remove flag
 
                 });
             },
@@ -149,33 +145,50 @@
             _calculate_heights: function() {
 
                 var $this = $(this),
-                    item_height = 0,
-                    data = $this.data('matchHeights');
+                    data = $this.data('matchHeights'),
+                    calculated_height = 0,
+                    old_style = $this.attr('style'); // store the current height; note that the original height is redundant as we may have shifted breakpoints
 
-                if ( data.resetStyle ) {
-                    $this.removeAttr('style');
+                // if the element has already been resized, an inline height will have been set
+                if ( old_style ) {
+                    $this.removeAttr('style'); // remove the applied new height so that the actual height can be calculated
                 }
 
+                // calculate the actual current height
                 if ( data.read === 'height' ) {
-                    item_height = $this.height();
+                    calculated_height = $this.height();
                 }
                 else if ( data.read === 'outerHeight' ) {
-                    item_height = $this.outerHeight();
+                    calculated_height = $this.outerHeight();
                 }
 
-                if ( item_height > globals.max_height ) {
-                    globals.max_height = item_height;
+                if ( old_style ) {
+                    $this.attr('style', old_style); // reinstate the old style so we can make the transition from it to the new style
                 }
 
+                // NOTE: when transitioning between breakpoints,
+                // a timeout is required to ensure that the layout has updated
+                // as this can effect the element width
+                // which in turn can affect the element height
+
+                // if this item is the tallest so far, update the global value
+                if ( calculated_height > globals.max_height ) {
+                    globals.max_height = calculated_height;
+                }
+
+                // increase the minimum height to match the tallest item so far
                 globals.min_height = globals.max_height;
-
-                data.old_height = item_height;
             },
 
             _set_heights: function() {
 
                 var $this = $(this),
                     data = $this.data('matchHeights');
+
+                // prevent previous height manipulation from affecting a recalculation
+                if ( data.animation_duration_ms > 0 ) {
+                    $this.matchHeights('_animate_height_change');
+                }
 
                 if ( data.write === 'height' ) {
                     $this.css('height', globals.min_height);
@@ -184,10 +197,43 @@
                     $this.css('min-height', globals.min_height);
                 }
 
-                // mark as done (but don't check for this, in case we want to run it again later - eg on text resize)
+                // the new height matches the tallest item in the row
+                data.new_height = globals.min_height;
+
+                // flag as done (but don't check for this, in case we want to run it again later - eg on text resize)
                 $this.addClass('js-match-heights');
 
-            } // END METHOD
+            }, // END METHOD
+
+            _animate_height_change: function() {
+
+                var $this = $(this),
+                    data = $this.data('matchHeights'),
+                    transition = 'all ' + ( data.animation_duration_ms / 1000) + 's linear'; // 'height' and 'min-height' didn't work in Chrome
+
+                $this.css({
+                    WebkitTransition : transition,
+                    MozTransition    : transition,
+                    MsTransition     : transition,
+                    OTransition      : transition,
+                    transition       : transition
+                });
+
+                transition = '';
+
+                // after the transition is complete remove it
+                // this prevents the transition from being present and triggered when the style is removed for recalculation
+                setTimeout( function() {
+                    $this.css({
+                        WebkitTransition : transition,
+                        MozTransition    : transition,
+                        MsTransition     : transition,
+                        OTransition      : transition,
+                        transition       : transition
+                    });
+                }, data.animation_duration_ms);
+
+            }
 
         }; // end methods
 
