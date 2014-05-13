@@ -1,4 +1,4 @@
-# jQuery: matchHeights <sup>v2</sup>
+# jQuery: matchHeights
 
 A jQuery plugin to create horizontal alignment.
 
