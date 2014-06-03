@@ -1,28 +1,27 @@
 {
-    "name": "ct-jquery-matchHeights",
-    "description": "A jQuery plugin to create horizontal alignment.",
-    "version": "2.1.1",
-    "main": "dist",
-    "license": "All rights reserved",
-    "ignore": [],
-    "keywords": [],
-    "authors": [
-        {
-            "name": "Dan Smith",
-            "email": "dan.smith@chrometoaster.com"
-        }
-    ],
-    "homepage": "http://github.com/chrometoasters/ct-jquery-matchHeights",
-    "repository": {
-        "type": "github",
-        "url": "http://github.com/chrometoasters/ct-jquery-matchHeights.git"
-    },
-    "dependencies": {
-        "jquery": "1.10.1"
-    },
-    "devDependencies": {
-      "qunit": "https://github.com/components/qunit.git#v1.11.0"
-    },
-    "resolutions": {},
-    "private": true
+  "name": "ct-jquery-matchHeights",
+  "description": "A jQuery plugin to create horizontal alignment.",
+  "version": "2.2.0",
+  "main": "dist",
+  "license": "All rights reserved",
+  "ignore": [],
+  "keywords": [],
+  "authors": [
+    {
+      "name": "Dan Smith",
+      "email": "dan.smith@chrometoaster.com"
+    }
+  ],
+  "homepage": "http://github.com/chrometoasters/ct-jquery-matchHeights",
+  "repository": {
+    "type": "github",
+    "url": "http://github.com/chrometoasters/ct-jquery-matchHeights.git"
+  },
+  "dependencies": {
+    "jquery": "1.10.1"
+  },
+  "devDependencies": {
+    "qunit": "https://github.com/components/qunit.git#v1.11.0"
+  },
+  "private": true
 }

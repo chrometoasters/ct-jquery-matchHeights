@@ -1,0 +1,5 @@
+@media print {
+    .js-match-heights {
+        min-height: 0 !important;
+    }
+}
