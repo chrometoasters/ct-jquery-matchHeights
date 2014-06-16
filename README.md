@@ -29,6 +29,7 @@ Ensure that the following assets are available on your page:
 
 1. `jquery.js/jquery.min.js` (dependency, via Bower)
 1. `ct-jquery-matchHeights/dist/ct-jquery-matchHeights.min.js` (script, bundled)
+1. `ct-jquery-matchHeights/dist/ct-jquery-matchHeights.css` (styles, bundled)
 
 ## Demo
 
