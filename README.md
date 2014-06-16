@@ -28,8 +28,7 @@ Note: if you wish to customise where Bower puts installed components, you may ad
 Ensure that the following assets are available on your page:
 
 1. `jquery.js/jquery.min.js` (dependency, via Bower)
-1. `dist/ct-jquery-ariaHiddenBreakrange.css` (styles, bundled)
-1. `dist/ct-jquery-ariaHiddenBreakrange.min.js` (script, bundled)
+1. `ct-jquery-matchHeights/dist/ct-jquery-matchHeights.min.js` (script, bundled)
 
 ## Demo
 
