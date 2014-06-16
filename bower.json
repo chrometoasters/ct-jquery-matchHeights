@@ -1,7 +1,7 @@
 {
   "name": "ct-jquery-matchHeights",
   "description": "A jQuery plugin to create horizontal alignment.",
-  "version": "2.2.0",
+  "version": "2.2.2",
   "main": "dist",
   "license": "All rights reserved",
   "ignore": [],
