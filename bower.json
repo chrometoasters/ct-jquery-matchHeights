@@ -1,10 +1,9 @@
 {
   "name": "ct-jquery-matchHeights",
   "description": "A jQuery plugin to create horizontal alignment.",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "main": "dist",
   "license": "All rights reserved",
-  "ignore": [],
   "keywords": [],
   "authors": [
     {
@@ -23,5 +22,12 @@
   "devDependencies": {
     "qunit": "https://github.com/components/qunit.git#v1.11.0"
   },
-  "private": true
+  "private": true,
+  "ignore": [
+    "bower_components/",
+    "demos/",
+    "dev/",
+    "test/",
+    ".gitignore"
+  ]
 }
